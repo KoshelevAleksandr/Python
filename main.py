@@ -22,6 +22,7 @@ all_messege = [
 def print_messege(mess):
     print(f"[{mess['sender']}] / {mess['time']} >>>>> {mess['text']}")
 
+
 def add_messege(sender, text):
     new_message = {
         'sender': sender,
