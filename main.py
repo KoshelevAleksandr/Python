@@ -1,9 +1,9 @@
 from datetime import datetime
 
-now = datetime.now()
-current_time = now.strftime("%H:%M:%S")
+# now = datetime.now()
+# current_time = now.strftime("%H:%M:%S")
 
-all_messege = [
+all_messeges = [
     {
         'sender': 'Dima',
         'text': 'Привет друзья!',
@@ -19,8 +19,10 @@ all_messege = [
     }
 ]
 
+
 def print_messege(mess):
     print(f"[{mess['sender']}] / {mess['time']} >>>>> {mess['text']}")
+
 
 def add_messege(sender, text):
     new_message = {
@@ -28,12 +30,11 @@ def add_messege(sender, text):
         'text': text,
         'time': datetime.now().strftime("%H:%M:%S")
     }
-    all_messege.append(new_message)
+    all_messeges.append(new_message)
+
 
 while True:
-    for messege in all_messege:
+    for messege in all_messeges:
         print_messege(messege)
 
     add_messege(input(), input())
-
-
