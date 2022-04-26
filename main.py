@@ -1,9 +1,22 @@
 from datetime import datetime
+from flask import Flask
 
 # now = datetime.now()
 # current_time = now.strftime("%H:%M:%S")
 
-all_messeges = [
+application = Flask(__name__)
+
+
+
+@application.route('/')
+def index_page():
+    return 'Hello, welcome to Chat'
+
+
+@application.route("/get_messages")
+def get_messages():
+    return {"messages":all_messages}
+all_messages = [
     {
         'sender': 'Dima',
         'text': 'Привет друзья!',
@@ -20,21 +33,24 @@ all_messeges = [
 ]
 
 
-def print_messege(mess):
+
+def print_message(mess):
     print(f"[{mess['sender']}] / {mess['time']} >>>>> {mess['text']}")
 
 
-def add_messege(sender, text):
+def add_message(sender, text):
     new_message = {
         'sender': sender,
         'text': text,
         'time': datetime.now().strftime("%H:%M:%S")
     }
-    all_messeges.append(new_message)
+    all_messages.append(new_message)
 
 
-while True:
-    for messege in all_messeges:
-        print_messege(messege)
+# while True:
+#     for message in all_messages:
+#         print_message(message)
+#
+#     add_message(input(), input())
 
-    add_messege(input(), input())
+application.run()
