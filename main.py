@@ -1,11 +1,10 @@
 from datetime import datetime
-from flask import Flask
+from flask import Flask, request, render_template
 
 # now = datetime.now()
 # current_time = now.strftime("%H:%M:%S")
 
 application = Flask(__name__)
-
 
 
 @application.route('/')
@@ -15,7 +14,21 @@ def index_page():
 
 @application.route("/get_messages")
 def get_messages():
-    return {"messages":all_messages}
+    return {"messages": all_messages}
+
+
+@application.route("/send_message")
+def send_message():
+    sender = request.args["name"]
+    text = request.args["text"]
+
+    add_message(sender, text)
+    return 'OK'
+
+@application.route("/chat")
+def display_chat():
+    return render_template("form.html")
+
 all_messages = [
     {
         'sender': 'Dima',
@@ -31,7 +44,6 @@ all_messages = [
         'time': '15:08'
     }
 ]
-
 
 
 def print_message(mess):
