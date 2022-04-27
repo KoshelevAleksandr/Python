@@ -22,6 +22,8 @@ def get_messages():
 def send_message():
     sender = request.args["name"]
     text = request.args["text"]
+    if len(sender)>16 or not sender or not text:
+        send_message()
 
     add_message(sender, text)
     return 'OK'
@@ -57,6 +59,7 @@ def add_message(sender, text):
         'text': text,
         'time': datetime.now().strftime("%H:%M")
     }
+
     all_messages.append(new_message)
 
 
