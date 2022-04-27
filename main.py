@@ -7,6 +7,7 @@ from flask import Flask, request, render_template
 application = Flask(__name__)
 
 
+
 @application.route('/')
 def index_page():
     return 'Hello, welcome to Chat'
@@ -54,15 +55,11 @@ def add_message(sender, text):
     new_message = {
         'sender': sender,
         'text': text,
-        'time': datetime.now().strftime("%H:%M:%S")
+        'time': datetime.now().strftime("%H:%M")
     }
     all_messages.append(new_message)
 
 
-# while True:
-#     for message in all_messages:
-#         print_message(message)
-#
-#     add_message(input(), input())
+# def validator()
 
 application.run()
