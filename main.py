@@ -1,11 +1,32 @@
 from datetime import datetime
 from flask import Flask, request, render_template
+import json
 
 # now = datetime.now()
 # current_time = now.strftime("%H:%M:%S")
 
-application = Flask(__name__)
+application = Flask(__name__)  # Создаём Flask-приложение
+DB_FILE = "./data/db.json"
 
+
+# Функция чтения сообщений из файла
+def load_mesages():
+    with open(DB_FILE, "r") as json_file:
+        data = json.load(json_file)
+    return data["messages"]
+
+
+all_messages = load_mesages()  # Список всех сообщений
+
+
+# Фукция сохранения сообщений в файл
+def save_messages():
+    data = {
+        "messages": all_messages
+    }
+    with open(DB_FILE, "w") as json_file:  # Открываем файл для записи
+        # json_file = open(DB_FILE, "w")
+        json.dump(data, json_file)
 
 
 @application.route('/')
@@ -22,31 +43,19 @@ def get_messages():
 def send_message():
     sender = request.args["name"]
     text = request.args["text"]
-    if len(sender)>16 or not sender or not text:
+    if len(sender) > 16 or not sender or not text:
         send_message()
 
     add_message(sender, text)
+
+    save_messages()
     return 'OK'
+
 
 @application.route("/chat")
 def display_chat():
+    # Показываем файл из папки templates
     return render_template("form.html")
-
-all_messages = [
-    {
-        'sender': 'Dima',
-        'text': 'Привет друзья!',
-        'time': '14:58'
-    }, {
-        'sender': 'Vanya',
-        'text': 'Я тоже тут!',
-        'time': '15:00',
-    }, {
-        'sender': 'Denis',
-        'text': 'Привет Дима!',
-        'time': '15:08'
-    }
-]
 
 
 def print_message(mess):
@@ -62,7 +71,5 @@ def add_message(sender, text):
 
     all_messages.append(new_message)
 
-
-# def validator()
 
 application.run()
